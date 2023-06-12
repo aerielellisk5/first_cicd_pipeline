@@ -2,6 +2,8 @@ name: CICD
 on: 
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
 
 jobs:
   build:
@@ -19,3 +21,14 @@ jobs:
         env:
           CI: true
       
+      - name: Build Project
+        if: github.event_name == 'push'
+        run: npm run build
+
+      - name: Deploy to staging environment
+        if: github.event_name == 'push'
+        run: npx surge --project ./build --domain truculent-profit.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ sercrets.SURGE_TOKEN }}
+

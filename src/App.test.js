@@ -14,3 +14,4 @@ test("renders learn react link", () => {
 // npm run build -- will build an optimized bundle ready for production
 
 // domain to use for surge: truculent-profit.surge.sh
+// you can run 'surge list' and that will show the list of domains that are generated on your machine
