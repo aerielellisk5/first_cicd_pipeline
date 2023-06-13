@@ -73,7 +73,5 @@ release created --> send a slack message to team
 
 Okay so, for this project, here are some token things that I'll need
 
-surge email: aerielashleyy@gmail.com
-surge token: b81db23e23b91511d383d73a9d5edcbd
-surge domain: truculent-profit.surge.sh
+
 
