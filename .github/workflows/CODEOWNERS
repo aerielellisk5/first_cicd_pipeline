@@ -2,8 +2,5 @@ Define who owns the code in the repository
 
 * aerielellisk5
 *.js @aerielellisk5
-*.yml @aerielellisk5
-/public/ @aerielellisk
-
-
-awefe
+*.yml @aerielsgit
+/public/ @aerielellisk5

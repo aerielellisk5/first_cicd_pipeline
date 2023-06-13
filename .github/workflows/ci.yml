@@ -1,0 +1,42 @@
+name: CICD
+on: 
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      # what is the difference between npm ci and npm install
+      - run: npm run format
+      - run: npm run format:check  
+      - run: npm test -- --coverage
+        env:
+          CI: true
+      
+      - name: Build Project
+        if: github.event_name == 'push'
+        run: |
+          npm audit fix --force
+          npm run build
+
+      - name: Deploy to staging environment
+        if: github.event_name == 'push'
+
+        # https://www.freecodecamp.org/news/error-error-0308010c-digital-envelope-routines-unsupported-node-error-solved/
+        run: |
+          npx uninstall react-scripts
+          npx install react-scripts
+          npx surge --project ./build --domain truculent-profit.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
