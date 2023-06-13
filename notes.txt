@@ -74,9 +74,6 @@ release created --> send a slack message to team
 Okay so, for this project, here are some token things that I'll need
 
 surge email: aerielashleyy@gmail.com
-surge token: e46843ee139677b78c2189125ec88b77
+surge token: b81db23e23b91511d383d73a9d5edcbd
 surge domain: truculent-profit.surge.sh
 
-// CI=true npm run test ---- will run only the tests and not listen for the changes in the file
-
-// CI=true npm run test -- --coverage will generate a test report in the browser
