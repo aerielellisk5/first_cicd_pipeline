@@ -25,7 +25,6 @@ jobs:
       - name: Build Project
         if: github.event_name == 'push'
         run: |
-          npm audit fix --force
           npm run build
 
       - name: Deploy to staging environment
