@@ -32,8 +32,8 @@ jobs:
 
         # https://www.freecodecamp.org/news/error-error-0308010c-digital-envelope-routines-unsupported-node-error-solved/
         run: |
-          npx uninstall react-scripts
-          npx install react-scripts
+          # npx uninstall react-scripts
+          # npx install react-scripts
           npx surge --project ./build --domain truculent-profit.surge.sh
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
