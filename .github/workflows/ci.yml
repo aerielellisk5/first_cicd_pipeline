@@ -4,7 +4,6 @@ on:
     branches: [develop]
   push:
     branches: [develop]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,9 +24,7 @@ jobs:
       - name: Build Project
         if: github.event_name == 'push'
         run: |
-          npm audit fix --force
           npm run build
-
       - name: Deploy to staging environment
         if: github.event_name == 'push'
 
@@ -39,4 +36,3 @@ jobs:
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-
