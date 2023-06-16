@@ -4,7 +4,6 @@ on:
     branches: [develop]
   push:
     branches: [develop]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,18 +24,15 @@ jobs:
       - name: Build Project
         if: github.event_name == 'push'
         run: |
-          npm audit fix --force
           npm run build
-
       - name: Deploy to staging environment
         if: github.event_name == 'push'
 
         # https://www.freecodecamp.org/news/error-error-0308010c-digital-envelope-routines-unsupported-node-error-solved/
         run: |
-          npx uninstall react-scripts
-          npx install react-scripts
+          # npx uninstall react-scripts
+          # npx install react-scripts
           npx surge --project ./build --domain truculent-profit.surge.sh
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-
