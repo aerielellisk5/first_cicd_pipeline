@@ -1,9 +1,9 @@
 name: CICD
 on: 
   pull_request:
-    branches: [develop]
+    branches: [develop, main]
   push:
-    branches: [develop]
+    branches: [develop, main]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,7 +39,11 @@ jobs:
       
       # - uses: actions/download-artifact
       # allows the artifact to be downloaded in your workspace
-
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to staging environment
         if: github.event_name == 'push'
