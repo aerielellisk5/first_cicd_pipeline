@@ -1,9 +1,9 @@
 name: CICD
 on: 
   pull_request:
-    branches: [develop]
+    branches: [develop, main]
   push:
-    branches: [develop]
+    branches: [develop, main]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,6 +13,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'
       - run: npm ci
       # what is the difference between npm ci and npm install
       - run: npm run format
@@ -20,11 +21,30 @@ jobs:
       - run: npm test -- --coverage
         env:
           CI: true
-      
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v3 
+        with:
+          name: code-coverage
+          path: coverage
       - name: Build Project
         if: github.event_name == 'push'
         run: |
           npm run build
+      - name: Upload Build Coverage
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v3 
+        with:
+          name: build
+          path: build
+      
+      # - uses: actions/download-artifact
+      # allows the artifact to be downloaded in your workspace
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy to staging environment
         if: github.event_name == 'push'
 
@@ -36,3 +56,5 @@ jobs:
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
+# would like to trigger an action again
