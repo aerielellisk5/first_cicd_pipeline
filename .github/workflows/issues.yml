@@ -12,4 +12,4 @@ jobs:
           curl -X POST -H 'Content-type: application/json'
           --data '{"text":"New issue created: <${{ github.event.issue.html_url }}|${{ github.event.issue.title}}.>"}' ${{ secrets.SLACK_WEBHOOK }}
 
-# updated the webhook
+# updated the webhook2
