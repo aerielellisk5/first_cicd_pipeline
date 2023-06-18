@@ -1,15 +1,12 @@
 name: CICD
 on: 
   pull_request:
-    branches: [develop, main]
+    branches: [develop]
   push:
-    branches: [develop, main]
+    branches: [develop]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: Use NodeJS
@@ -42,26 +39,18 @@ jobs:
       
       # - uses: actions/download-artifact
       # allows the artifact to be downloaded in your workspace
-      - name: Create a Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Deploy to staging environment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        if: github.event_name == 'push'
 
         # https://www.freecodecamp.org/news/error-error-0308010c-digital-envelope-routines-unsupported-node-error-solved/
         run: |
           # npx uninstall react-scripts
           # npx install react-scripts
           npx surge --project ./build --domain truculent-profit.surge.sh
-    
-
-      - name: Deploy to production environment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          npx surge --project ./build --domain obtainable-neck.surge.sh
-   
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
 # would like to trigger an action again
