@@ -63,7 +63,7 @@ jobs:
         run: |
           npx surge --project ./build --domain obtainable-neck.surge.sh
       - name: Open Issue
-        if: failure() && github.event_name =='pull_request'
+        if: failure() && github.event_name =='push'
         # this will run if any of the previous steps fail
         run: |
           curl --request POST \
